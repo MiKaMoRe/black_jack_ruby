@@ -1,10 +1,8 @@
 require_relative 'card'
 
 class Table
-  attr_reader :deck
-
   def initialize
-    @bank = []
+    @bank = 0
     @deck = []
   end
 
@@ -48,6 +46,10 @@ class Table
   def deal_cards(players*)
     raise 'You need 2 or more players' if players.length < 2
     2.times{ players.each { |player| player.add_card(get_card) } }
+  end
+
+  def bets(players*)
+    players.each { |player| @bank += player.bet_money(10) }
   end
 
   protected
