@@ -1,9 +1,12 @@
+require_relative 'hand'
+
 class Character
-  attr_accessor :deck, :wallet
+  attr_accessor :wallet
+  attr_reader :hand
 
   def initialize(money)
     @wallet = money
-    @deck = []
+    @hand = Hand.new
   end
 
   def bet_money(size)
@@ -11,21 +14,8 @@ class Character
     size
   end
 
-  def score
-    sum = 0
-    @deck.each { |card| sum += card.weight_max }
-    return sum if sum <= 21
-    sum = 0
-    @deck.each { |card| sum += card.weight_min }
-    sum
-  end
-
   def get_money(size)
     @wallet += size
-  end
-
-  def add_card(card)
-    @deck << card
   end
 
   def pass
@@ -33,10 +23,6 @@ class Character
   end
 
   def out_of_range?
-    score > 21
-  end
-
-  def clear_deck
-    @deck = []
+    hand.score > 21
   end
 end

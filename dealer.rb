@@ -7,7 +7,7 @@ class Dealer < Character
   # шанс того, что он выберет "взять карту" изменяется.
   def take_card
     rnd = Random.new
-    case score
+    case hand.score
     when 1..10
       choice = 1
     when 19..20

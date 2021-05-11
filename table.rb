@@ -9,17 +9,8 @@ class Table
   end
 
   def create_deck
-    for suit in 1..4 do
-      case suit
-      when 1
-        suit = '♠'
-      when 2
-        suit = '♥'
-      when 3
-        suit = '♣'
-      when 4
-        suit = '♦'
-      end
+    for suit in 0..3 do
+      suit = Card.SUITS[suit]
       for number in 1..13 do
         @deck << Card.new(suit, number)
       end
@@ -47,7 +38,7 @@ class Table
 
   def deal_cards(players)
     raise 'You need 2 or more players' if players.length < 2
-    2.times{ players.each { |player| player.add_card(get_card) } }
+    2.times{ players.each { |player| player.hand.add_card(get_card) } }
   end
 
   def bets(players, bets)
@@ -76,17 +67,5 @@ class Table
 
   def deck_is_empty?
     return @deck == []
-  end
-
-  # Debug method
-  def cards_repeat?
-    suit = false
-    number = false
-    @deck.each_with_index do |card_control, index_control|
-      @deck.each_with_index do |card, index|
-        next if index == index_control
-        return card.suit == card_control.suit && card.number == card_control.number
-      end
-    end
   end
 end

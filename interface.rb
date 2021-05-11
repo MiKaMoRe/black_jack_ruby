@@ -58,10 +58,10 @@ class Interface
     @game.players.each do |player|
       cards = ''
       if player.class == Dealer
-        player.deck.each { cards << '* ' }
+        player.hand.deck.each { cards << '* ' }
         puts "Карты диллера: #{cards}"
       else
-        player.deck.each { |card| cards << card.view << ' '}
+        player.hand.deck.each { |card| cards << card.view << ' '}
         puts "Карты #{player.name}: #{cards}"
       end
     end
@@ -71,11 +71,11 @@ class Interface
     @game.players.each do |player|
       cards = ''
       if player.class == Dealer
-        player.deck.each { |card| cards << card.view << ' ' }
-        puts "Карты диллера: #{cards} - score: #{player.score}"
+        player.hand.deck.each { |card| cards << card.view << ' ' }
+        puts "Карты диллера: #{cards} - score: #{player.hand.score}"
       else
-        player.deck.each { |card| cards << card.view << ' '}
-        puts "Карты #{player.name}: #{cards} - score: #{player.score}"
+        player.hand.deck.each { |card| cards << card.view << ' '}
+        puts "Карты #{player.name}: #{cards} - score: #{player.hand.score}"
       end
     end
   end

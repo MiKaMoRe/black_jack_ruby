@@ -13,7 +13,7 @@ class Game
   end
 
   def start
-    @players.each { |player| player.clear_deck }
+    @players.each { |player| player.hand.clear_deck }
     @table.clear_deck
     @table.create_deck
     @table.mix_deck
@@ -57,13 +57,13 @@ class Game
     past_player = @players[0]
     winner_index = 0
     @players.each_with_index do |player, index| 
-      if !player.out_of_range? && !past_player.out_of_range? && past_player.score <= player.score
+      if !player.out_of_range? && !past_player.out_of_range? && past_player.hand.score <= player.hand.score
         winner_index = index
       end
       if past_player.out_of_range? && !player.out_of_range?
         winner_index = index
       end
-      score = player.score
+      score = player.hand.score
     end
     winner_index
   end
@@ -73,14 +73,14 @@ class Game
   end
 
   def draw_game?
-    score = @players[0].score
+    score = @players[0].hand.score
     counter = @players.select { |player| player.out_of_range? }.length
 
     return true if counter == @players.length
 
     counter = -1
     @players.each do |player|
-      if score == player.score
+      if score == player.hand.score
         counter += 1
       end
     end
@@ -101,7 +101,7 @@ class Game
   end
 
   def take_card
-    @players[@move].add_card(@table.get_card)
+    @players[@move].hand.add_card(@table.get_card)
     pass_move
   end
 end

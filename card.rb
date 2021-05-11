@@ -1,9 +1,15 @@
 class Card
   attr_reader :suit
 
+  SUITS = ['♠', '♥', '♣', '♦']
+
   def initialize(suit, number)
     @suit = suit
     @number = number
+  end
+
+  def self.SUITS
+    SUITS
   end
 
   def weight_max
