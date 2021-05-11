@@ -1,6 +1,8 @@
 require_relative 'card'
 
 class Table
+  attr_accessor :bank
+
   def initialize
     @bank = 0
     @deck = []
@@ -64,6 +66,10 @@ class Table
   def win_money(winner)
     winner.get_money(@bank)
     @bank = 0
+  end
+
+  def clear_deck
+    @deck = []
   end
 
   protected

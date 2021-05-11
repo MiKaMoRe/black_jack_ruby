@@ -5,7 +5,7 @@ class Dealer < Character
   # если значение choice будет 1, 2 или 3.
   # В зависимости от того, сколько очков у диллера,
   # шанс того, что он выберет "взять карту" изменяется.
-  def take_card?
+  def take_card
     rnd = Random.new
     case score
     when 1..10
@@ -17,11 +17,11 @@ class Dealer < Character
     when 13..15
       choice = rnd.rand(1..6)
     when 11..12
-      choise = rnd.rand(1..4)
+      choice = rnd.rand(1..4)
     else
       choice = 4
     end
-    return 'take' if choice.between?(1..3)
+    return 'take' if choice.between?(1,3)
     'pass'
   end
 end

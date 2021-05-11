@@ -1,4 +1,6 @@
 class Character
+  attr_accessor :deck, :wallet
+
   def initialize(money)
     @wallet = money
     @deck = []
@@ -28,5 +30,13 @@ class Character
 
   def pass
     false
+  end
+
+  def out_of_range?
+    score > 21
+  end
+
+  def clear_deck
+    @deck = []
   end
 end

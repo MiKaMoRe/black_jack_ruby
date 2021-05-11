@@ -1,40 +1,41 @@
 require_relative 'player'
 require_relative 'dealer'
 require_relative 'table'
+require_relative 'interface'
 
 class Game
+  attr_reader :players, :table
+
   def initialize(table, *players)
     @table = table
     @players = players
     @move = 0
   end
 
-  def start_game
+  def start
+    @players.each { |player| player.clear_deck }
+    @table.clear_deck
     @table.create_deck
     @table.mix_deck
     @table.deal_cards(@players)
-    @table.bets(@players)
+    @table.bets(@players, 10)
   end
 
-  def move(choice)
+  def select(choice)
     case choice
     when 'take'
       take_card
     when 'pass'
       pass_move
     when 'show'
-      end_game
-    else
+      stop
       false
+    else
+      true
     end
   end
 
-  def winner_define
-    return nil if draw_game?
-    score_players.each_with_index.max[1]
-  end
-
-  def end_game
+  def stop
     winner_index = winner_define
     if winner_index.nil?
       draw_game
@@ -44,7 +45,28 @@ class Game
     end
   end
 
+  def whoes_move
+    @players[@move]
+  end
+
   private
+
+  def winner_define
+    return nil if draw_game?
+
+    past_player = @players[0]
+    winner_index = 0
+    @players.each_with_index do |player, index| 
+      if !player.out_of_range? && !past_player.out_of_range? && past_player.score <= player.score
+        winner_index = index
+      end
+      if past_player.out_of_range? && !player.out_of_range?
+        winner_index = index
+      end
+      score = player.score
+    end
+    winner_index
+  end
 
   def draw_game
     @table.back_money(@players)
@@ -52,16 +74,26 @@ class Game
 
   def draw_game?
     score = @players[0].score
-    score_players.each { |player| return false if score != player.score }
-    true
+    counter = @players.select { |player| player.out_of_range? }.length
+
+    return true if counter == @players.length
+
+    counter = -1
+    @players.each do |player|
+      if score == player.score
+        counter += 1
+      end
+    end
+
+    return true if counter == @players.length
+
+    false
   end
 
-  def score_players
-    @players.map { |player| player.score }
-  end
+  
 
   def pass_move
-    if @move <= @players.length - 1
+    if @move < @players.length - 1
       @move += 1
     else
       @move = 0
@@ -73,3 +105,5 @@ class Game
     pass_move
   end
 end
+
+Interface.new()

@@ -31,15 +31,15 @@ class Card
   def view
     case @number
     when 11
-      'J'
+      'J' << @suit
     when 12
-      'Q'
+      'Q' << @suit
     when 13
-      'K'
+      'K' << @suit
     when 1
-      'T'
+      'T' << @suit
     else
-      @number
+      @number.to_s << @suit
     end
   end
 end
