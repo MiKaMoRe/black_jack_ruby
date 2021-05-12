@@ -1,24 +1,24 @@
 class Hand
-  attr_accessor :deck
+  attr_accessor :cards
 
   def initialize
-    @deck = []
+    @cards = []
   end
 
   def add_card(card)
-    @deck << card
+    @cards << card
   end
   
   def score
     sum = 0
-    @deck.each { |card| sum += card.weight_max }
+    @cards.each { |card| sum += card.weight_max }
     return sum if sum <= 21
     sum = 0
-    @deck.each { |card| sum += card.weight_min }
+    @cards.each { |card| sum += card.weight_min }
     sum
   end
 
-  def clear_deck
-    @deck = []
+  def clear_cards
+    @cards = []
   end
 end

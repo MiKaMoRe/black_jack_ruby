@@ -13,7 +13,7 @@ class Game
   end
 
   def start
-    @players.each { |player| player.hand.clear_deck }
+    @players.each { |player| player.hand.clear_cards }
     @table.clear_deck
     @table.create_deck
     @table.mix_deck
@@ -89,8 +89,6 @@ class Game
 
     false
   end
-
-  
 
   def pass_move
     if @move < @players.length - 1

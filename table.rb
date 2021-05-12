@@ -2,6 +2,7 @@ require_relative 'card'
 
 class Table
   attr_accessor :bank
+  attr_reader :deck
 
   def initialize
     @bank = 0
@@ -9,8 +10,7 @@ class Table
   end
 
   def create_deck
-    for suit in 0..3 do
-      suit = Card.SUITS[suit]
+    Card::SUITS.each do |suit|
       for number in 1..13 do
         @deck << Card.new(suit, number)
       end

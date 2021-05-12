@@ -12,7 +12,7 @@ class Interface
         system("clear")
         show_bank
         show_wallets
-        show_decks
+        show_cards
         player = @game.whoes_move
         if player.class == Dealer
           @game.select(player.take_card)
@@ -23,12 +23,14 @@ class Interface
       system("clear")
       show_bank
       show_wallets
-      open_decks
+      open_cards
       puts 'Конец'
       puts 'Хотите сыграть еще? yes/no'
       break if gets.chomp == 'no'
     end
   end
+
+  private
 
   def start
     name = enter_your_name
@@ -37,8 +39,6 @@ class Interface
     dealer = Dealer.new(100)
     @game = Game.new(table, player, dealer)
   end
-
-  private
 
   def show_bank
     puts "Банк: #{@game.table.bank}"
@@ -54,27 +54,27 @@ class Interface
     end
   end
 
-  def show_decks
+  def show_cards
     @game.players.each do |player|
       cards = ''
       if player.class == Dealer
-        player.hand.deck.each { cards << '* ' }
+        player.hand.cards.each { cards << '* ' }
         puts "Карты диллера: #{cards}"
       else
-        player.hand.deck.each { |card| cards << card.view << ' '}
+        player.hand.cards.each { |card| cards << card_view(card) << ' '}
         puts "Карты #{player.name}: #{cards}"
       end
     end
   end
 
-  def open_decks
+  def open_cards
     @game.players.each do |player|
       cards = ''
       if player.class == Dealer
-        player.hand.deck.each { |card| cards << card.view << ' ' }
+        player.hand.cards.each { |card| cards << card_view(card) << ' ' }
         puts "Карты диллера: #{cards} - score: #{player.hand.score}"
       else
-        player.hand.deck.each { |card| cards << card.view << ' '}
+        player.hand.cards.each { |card| cards << card_view(card) << ' '}
         puts "Карты #{player.name}: #{cards} - score: #{player.hand.score}"
       end
     end
@@ -88,5 +88,20 @@ class Interface
   def enter_your_name
     puts 'Введите имя'
     gets.chomp
+  end
+
+  def card_view(card)
+    case card.number
+    when 11
+      'J' << card.suit
+    when 12
+      'Q' << card.suit
+    when 13
+      'K' << card.suit
+    when 1
+      'T' << card.suit
+    else
+      card.number.to_s << card.suit
+    end
   end
 end

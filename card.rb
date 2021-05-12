@@ -1,15 +1,11 @@
 class Card
-  attr_reader :suit
+  attr_reader :suit, :number
 
   SUITS = ['♠', '♥', '♣', '♦']
 
   def initialize(suit, number)
     @suit = suit
     @number = number
-  end
-
-  def self.SUITS
-    SUITS
   end
 
   def weight_max
@@ -33,19 +29,4 @@ class Card
       @number
     end
   end 
-
-  def view
-    case @number
-    when 11
-      'J' << @suit
-    when 12
-      'Q' << @suit
-    when 13
-      'K' << @suit
-    when 1
-      'T' << @suit
-    else
-      @number.to_s << @suit
-    end
-  end
 end
